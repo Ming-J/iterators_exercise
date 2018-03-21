@@ -95,7 +95,24 @@ private:
 template <typename T>
 class vector_iterator {
 public:
-
+    vector_iterator<T>() = default;
+    T& operator *(){
+        return *element_;
+    }
+    T operator ->(){
+        return *element_;
+    }
+    T& operator++(){
+        return *(++element_);
+    }
+    T operator++(int){
+        T pre = *element_;
+        ++element_;
+        return pre;
+    }
+    bool operator==(vector_iterator& rhs){
+        return *element_ == *rhs;
+    }
 private:
     T* element_ = nullptr;
 };
