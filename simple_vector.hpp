@@ -100,26 +100,33 @@ public:
     typedef T& reference;
     typedef std::input_iterator_tag iterator_category;
     vector_iterator<T>() = default;
-    T& operator *(){
+    vector_iterator<T>(T* val){
+        element_ = val;
+    }
+    T& operator *() {
         return *element_;
     }
-    T operator ->(){
-        return *element_;
+    T* operator->(){
+        return element_;
     }
+    /*
+    T *operator->(){
+        return this;
+    }*/
     vector_iterator<T>& operator++(){
         ++element_;
-        return *element_;
+        return *this;
     }
     vector_iterator<T> operator++(int){
-        vector_iterator<T> pre(*element_);
+        vector_iterator<T> pre(*this);
         ++element_;
         return pre;
     }
-    bool operator==(vector_iterator<T>& rhs){
-        return *element_ == *rhs;
+    bool operator==(const vector_iterator<T>& rhs)const {
+        return *this == rhs;
     }
-    bool operator!=(vector_iterator<T>& rhs){
-        return *element_ != *rhs;
+    bool operator!=(const vector_iterator<T>& rhs)const {
+        return *this != rhs;
     }
 private:
     T* element_ = nullptr;
