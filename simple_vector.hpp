@@ -91,10 +91,14 @@ private:
     std::size_t size_ = 0;
 };
 
-
 template <typename T>
 class vector_iterator {
 public:
+    typedef T value_type;
+    typedef T* pointer;
+    typedef std::ptrdiff_t difference_type;
+    typedef T& reference;
+    typedef std::input_iterator_tag iterator_category;
     vector_iterator<T>() = default;
     T& operator *(){
         return *element_;
@@ -102,16 +106,20 @@ public:
     T operator ->(){
         return *element_;
     }
-    T& operator++(){
-        return *(++element_);
+    vector_iterator<T>& operator++(){
+        ++element_;
+        return *element_;
     }
-    T operator++(int){
-        T pre = *element_;
+    vector_iterator<T> operator++(int){
+        vector_iterator<T> pre(*element_);
         ++element_;
         return pre;
     }
-    bool operator==(vector_iterator& rhs){
+    bool operator==(vector_iterator<T>& rhs){
         return *element_ == *rhs;
+    }
+    bool operator!=(vector_iterator<T>& rhs){
+        return *element_ != *rhs;
     }
 private:
     T* element_ = nullptr;
