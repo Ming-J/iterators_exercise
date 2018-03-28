@@ -98,7 +98,7 @@ public:
     typedef T* pointer;
     typedef std::ptrdiff_t difference_type;
     typedef T& reference;
-    typedef std::input_iterator_tag iterator_category;
+    typedef std::bidirectional_iterator_tag iterator_category;
     vector_iterator<T>() = default;
     vector_iterator<T>(T* val){
         element_ = val;
@@ -122,11 +122,23 @@ public:
         ++element_;
         return pre;
     }
-    bool operator==(const vector_iterator<T>& rhs)const {
-        return *this == rhs;
+    vector_iterator<T>& operator--(){
+        --element_;
+        return *this;
     }
-    bool operator!=(const vector_iterator<T>& rhs)const {
-        return *this != rhs;
+    vector_iterator<T> operator--(int){
+        vector_iterator<T> pre(*this);
+        --element_;
+        return pre;
+    }
+    T* getElement()const{
+        return element_;
+    }
+    bool operator==(const vector_iterator<T>& rhs) const {
+        return element_ == rhs.getElement();
+    }
+    bool operator!=(const vector_iterator<T>& rhs) const {
+        return element_ != rhs.getElement();
     }
 private:
     T* element_ = nullptr;
